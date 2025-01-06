@@ -111,16 +111,16 @@ const QRCodeGenerator = () => {
   }, [size, qrStyle.bgColor]);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl animate-fadeIn">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-2">QR Code Generator</h1>
-        <p className="text-muted-foreground">Generate and customize your QR codes instantly</p>
+    <div className="container mx-auto px-4 py-6 md:py-8 max-w-4xl animate-fadeIn">
+      <div className="text-center mb-6 md:mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold mb-3">QR Code Generator</h1>
+        <p className="text-muted-foreground px-2">Generate and customize your QR codes instantly</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card className="p-6 animate-slideUp">
-          <div className="space-y-4">
-            <div className="space-y-2">
+      <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+        <Card className="p-4 md:p-6 animate-slideUp">
+          <div className="space-y-5">
+            <div className="space-y-3">
               <Label htmlFor="text">Enter URL or text</Label>
               <Input
                 id="text"
@@ -135,9 +135,9 @@ const QRCodeGenerator = () => {
           </div>
         </Card>
 
-        <Card className="p-6 animate-slideUp delay-100">
-          <div className="space-y-4">
-            <div className="flex justify-center mb-4">
+        <Card className="p-4 md:p-6 animate-slideUp delay-100">
+          <div className="space-y-5">
+            <div className="flex justify-center mb-5">
               {text ? (
                 <div className="qr-container p-4 bg-white rounded-lg shadow-sm">
                   <QRCodeSVG
@@ -151,13 +151,13 @@ const QRCodeGenerator = () => {
                 </div>
               ) : (
                 <div className="flex items-center justify-center w-64 h-64 bg-secondary rounded-lg">
-                  <p className="text-muted-foreground text-sm">Enter text to generate QR code</p>
+                  <p className="text-muted-foreground text-sm px-4 text-center">Enter text to generate QR code</p>
                 </div>
               )}
             </div>
 
-            <div className="space-y-4">
-              <div className="flex gap-2 justify-center">
+            <div className="space-y-5">
+              <div className="flex gap-3 justify-center">
                 <Button
                   variant="outline"
                   onClick={copyToClipboard}
@@ -179,7 +179,7 @@ const QRCodeGenerator = () => {
               </div>
 
               <Tabs defaultValue="png" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
+                <TabsList className="grid w-full grid-cols-3 mb-4">
                   <TabsTrigger value="png">PNG</TabsTrigger>
                   <TabsTrigger value="jpeg">JPEG</TabsTrigger>
                   <TabsTrigger value="svg">SVG</TabsTrigger>
