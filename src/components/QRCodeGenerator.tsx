@@ -137,7 +137,7 @@ const QRCodeGenerator = () => {
 
         <Card className="p-4 md:p-6 animate-slideUp delay-100">
           <div className="space-y-5">
-            <div className="flex justify-center mb-5">
+            <div className="flex justify-center mb-8 md:mb-5">
               {text ? (
                 <div className="qr-container p-4 bg-white rounded-lg shadow-sm">
                   <QRCodeSVG
@@ -156,7 +156,7 @@ const QRCodeGenerator = () => {
               )}
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-5 mt-8 md:mt-5">
               <div className="flex gap-3 justify-center">
                 <Button
                   variant="outline"
