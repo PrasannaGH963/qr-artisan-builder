@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import QRCode from 'qrcode.react';
+import { QRCodeSVG } from 'qrcode.react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -92,14 +92,13 @@ const QRCodeGenerator = () => {
             <div className="flex justify-center mb-4">
               {text ? (
                 <div className="p-4 bg-white rounded-lg shadow-sm">
-                  <QRCode
+                  <QRCodeSVG
                     value={text || ' '}
                     size={size}
                     fgColor={qrStyle.fgColor}
                     bgColor={qrStyle.bgColor}
                     level={qrStyle.level as "L" | "M" | "Q" | "H"}
                     includeMargin={qrStyle.includeMargin}
-                    renderAs="svg"
                   />
                 </div>
               ) : (
