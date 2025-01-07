@@ -20,6 +20,29 @@ const QRCodeGenerator = () => {
     cornerRadius: 0,
   });
 
+  // Function to determine appropriate QR error correction level based on data length
+  const getErrorCorrectionLevel = (dataLength: number) => {
+    if (dataLength <= 100) return 'H'; // High - 30% correction
+    if (dataLength <= 500) return 'Q'; // Quartile - 25% correction
+    if (dataLength <= 1000) return 'M'; // Medium - 15% correction
+    return 'L'; // Low - 7% correction
+  };
+
+  // Update text with validation
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newText = e.target.value;
+    if (newText.length > 2000) { // Set a reasonable maximum length
+      toast.error('Text is too long. Maximum 2000 characters allowed.');
+      return;
+    }
+    setText(newText);
+    // Automatically adjust error correction level
+    setQrStyle(prev => ({
+      ...prev,
+      level: getErrorCorrectionLevel(newText.length)
+    }));
+  };
+
   const handleDownload = useCallback((format: string) => {
     const svg = document.querySelector('.qr-container svg');
     if (!svg) {
@@ -139,9 +162,13 @@ const QRCodeGenerator = () => {
                 id="text"
                 placeholder="https://example.com"
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={handleTextChange}
                 className="w-full"
               />
+              <p className="text-xs text-muted-foreground">
+                {text.length}/2000 characters
+                {text.length > 0 && ` (Using ${qrStyle.level} error correction)`}
+              </p>
             </div>
 
             <QRCustomizer qrStyle={qrStyle} setQrStyle={setQrStyle} size={size} setSize={setSize} />
