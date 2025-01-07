@@ -27,28 +27,41 @@ const QRCodeGenerator = () => {
       return;
     }
 
-    // Create a canvas element
+    // Set a high resolution for export
+    const exportSize = size * 4; // Multiply the size by 4 for higher quality
+    const svgData = new XMLSerializer().serializeToString(svg);
+
+    // Create a canvas element with higher resolution
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const img = new Image();
+    canvas.width = exportSize;
+    canvas.height = exportSize;
 
-    canvas.width = size;
-    canvas.height = size;
+    const img = new Image();
 
     img.onload = () => {
       if (!ctx) return;
+      
+      // Fill background
       ctx.fillStyle = qrStyle.bgColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
+      
+      // Use better image smoothing
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      
+      // Draw the image at high resolution
+      ctx.drawImage(img, 0, 0, exportSize, exportSize);
 
       let url, filename;
       if (format === 'svg') {
+        // For SVG, maintain vector quality
         const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
         url = URL.createObjectURL(svgBlob);
         filename = 'qrcode.svg';
       } else {
-        url = canvas.toDataURL(`image/${format}`);
+        // For raster formats, use maximum quality
+        url = canvas.toDataURL(`image/${format}`, 1.0);
         filename = `qrcode.${format}`;
       }
 
@@ -59,7 +72,7 @@ const QRCodeGenerator = () => {
       link.click();
       document.body.removeChild(link);
       if (format === 'svg') URL.revokeObjectURL(url);
-      toast.success('QR Code downloaded successfully!');
+      toast.success('High quality QR Code downloaded successfully!');
     };
 
     img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
